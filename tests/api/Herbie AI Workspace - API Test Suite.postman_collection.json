@@ -1,0 +1,471 @@
+{
+  "info": {
+    "_postman_id": "76d2f119-cbc0-47ec-99ed-0ff32792e102",
+    "name": "Herbie AI Workspace - API Test Suite",
+    "description": "Complete API testing suite covering Project Creation, Document Upload, Question Posting, Answer Retrieval with Citations, Invalid Input, and Access Control.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48862269",
+    "_collection_link": "https://go.postman.co/collection/48862269-76d2f119-cbc0-47ec-99ed-0ff32792e102?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Project Management",
+      "item": [
+        {
+          "name": "1. Create Project - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();\n\npm.test(\"Project Created Successfully\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\n});\n\nif (jsonData.id || (jsonData.data && jsonData.data.id)) {\n    var newProjectId = jsonData.id || jsonData.data.id;\n    pm.collectionVariables.set(\"projectId\", newProjectId);\n    console.log(\"Saved Project ID:\", newProjectId);\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_13hb}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"My New Project\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Create Project - Invalid Input (Empty Name)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {\n    pm.response.to.have.status(400);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects/{{projectId}}/files",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "{{projectId}}",
+                "files"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Create Project - Access Control (No Auth Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 401 Unauthorized', function () {\n    pm.response.to.have.status(401);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Unauthorized Project\"\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects/{{projectId}}/files",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "{{projectId}}",
+                "files"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Document Management",
+      "item": [
+        {
+          "name": "1. Upload Document - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();\npm.collectionVariables.set(\"authToken\", jsonData.token || jsonData.access_token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [
+                    "Project A/Project A.pdf"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects/{{projectId}}/files",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "{{projectId}}",
+                "files"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Upload Document - Invalid Input (.exe file)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized\", function () {\n    pm.response.to.have.status(401);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{json_web_token_010f}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [
+                    "Project A/script.exe"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects/7d02617b-a108-425a-bdb0-ef2bf4493d49/files",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "7d02617b-a108-425a-bdb0-ef2bf4493d49",
+                "files"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat & Citations Retrieval",
+      "item": [
+        {
+          "name": "1. Send Question - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized\", function () {\n    pm.response.to.have.status(401);\n});\n\npm.test(\"Response has error message\", function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.have.property(\"error\");\n    pm.expect(jsonData.error).to.have.property(\"message\", \"invalid token\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What was the combined contracted equipment and installation amount?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://backend-production-0cfd.up.railway.app/api/projects/7d02617b-a108-425a-bdb0-ef2bf4493d49/chat",
+              "protocol": "https",
+              "host": [
+                "backend-production-0cfd",
+                "up",
+                "railway",
+                "app"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "7d02617b-a108-425a-bdb0-ef2bf4493d49",
+                "chat"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Retrieve Answer & Citations - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Verify Answer Text and Citations Structure', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('answer');",
+                  "    pm.expect(jsonData.citations).to.be.an('array');",
+                  "    pm.expect(jsonData.citations.length).to.be.at.least(1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/conversations/{{conversation_id}}/response",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "conversations",
+                "{{conversation_id}}",
+                "response"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login Test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// JSON Response safe handling\ntry {\n    var jsonData = pm.response.json();\n    var token = jsonData.token || jsonData.access_token || jsonData.jwt;\n    if (token) {\n        pm.environment.set(\"authToken\", token);\n    }\n} catch (e) {\n    console.log(\"Response is not JSON:\", e);\n}\nvar jsonData = pm.response.json();\n\n// Backend token Key er name token, access_token ba jwt hote pare\nvar token = jsonData.token || jsonData.access_token || jsonData.jwt;\n\nif (token) {\n    pm.environment.set(\"authToken\", token);\n    console.log(\"Token saved successfully:\", token);\n} else {\n    console.log(\"Token key not found in response body!\");\n}\nvar jsonData = pm.response.json();\nvar token = jsonData.token || jsonData.access_token || (jsonData.data && jsonData.data.token);\nif (token) {\n    pm.collectionVariables.set(\"authToken\", token);\n    console.log(\"Token Updated Successfully!\");\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"wasiurrahman195@gmail.com\",\n  \"password\": \"E5q5WNuzCAzYyqw\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://backend-production-0cfd.up.railway.app/api/auth/login",
+          "protocol": "https",
+          "host": [
+            "backend-production-0cfd",
+            "up",
+            "railway",
+            "app"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://frontend-production-8351.up.railway.app"
+    },
+    {
+      "key": "json_web_token_010f",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_13hb",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0qhb",
+      "secret": true
+    },
+    {
+      "key": "projectID",
+      "value": ""
+    },
+    {
+      "key": "projectId",
+      "value": ""
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    }
+  ]
+}
