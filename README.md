@@ -24,7 +24,6 @@ Absent Information Verification: Ensuring the AI gracefully handles questions ou
 Workspace Isolation & Multi-Tenancy Security: Verifying strict data isolation across project boundaries (preventing IDOR/BOLA).
 
 📁 Repository Structure
-Plaintext
 Wasiur-Rahman_herbie_ai-automation/
 │
 ├── data/
@@ -48,7 +47,7 @@ Wasiur-Rahman_herbie_ai-automation/
 ├── Project A - Solar Pilot.docx               # Test document fixture
 ├── playwright.config.ts                       # Playwright test execution configuration
 ├── package.json                               # Dependencies and scripts
-└── README.md                                  # Project documentation ```
+└── README.md                                  # Project documentation
 
 ⚙️ Setup & Installation Instructions
 Prerequisites
