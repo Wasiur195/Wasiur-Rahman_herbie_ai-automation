@@ -101,7 +101,35 @@ After executing the Playwright tests, view the interactive HTML report by runnin
 ```bash
 npx playwright show-report
 ```
-🧠 AI Answer Quality & Security SummaryCategoryTest ScenarioExpected BehaviorResultSupported AnswerQuerying known facts from uploaded DOCX filesProvides grounded answers with citationsPASSAbsent InformationRequesting data not present in uploaded filesRefuses to answer / states info is missingPASSWorkspace IsolationCross-project query attempt (/conversations/{id}/messages)Returns 404 Not Found / Restricts data accessPASS⚠️ Assumptions & Blockers FacedRouting & Endpoint Structure: The AI chat endpoint utilizes a conversation-nested route (/api/conversations/{conversationId}/messages) with a mandatory payload schema ({"content": "query"}).Session Token Expiry: Authentication tokens require dynamic refresh per test session to avoid 401 Unauthorized responses during API pipeline runs.Data Isolation Strictness: Verified that accessing invalid or cross-tenant project IDs properly triggers 404 conversation not found, confirming robust data isolation.🛡️ Risk-Based QA SummaryHigh Severity Area: Token propagation and authorization headers in document upload endpoints.Medium Severity Area: Ensuring prompt injection attempts cannot override workspace constraints or leak backend system prompts.Overall Quality Gate Status: PASSED — All core E2E UI workflows, critical API routes, and AI isolation checks are validated.
+## 🧠 AI Answer Quality & Security Summary
+
+| Category | Test Scenario | Expected Behavior | Result |
+| :--- | :--- | :--- | :---: |
+| **Supported Answer** | Querying known facts from uploaded DOCX files | Provides grounded answers with citations | **PASS** |
+| **Absent Information** | Requesting data not present in uploaded files | Refuses to answer / states info is missing | **PASS** |
+| **Workspace Isolation** | Cross-project query attempt (`/conversations/{id}/messages`) | Returns 404 Not Found / Restricts data access | **PASS** |
+
+---
+
+## ⚠️ Assumptions & Blockers Faced
+
+* **Routing & Endpoint Structure:** The AI chat endpoint utilizes a conversation-nested route (`/api/conversations/{conversationId}/messages`) with a mandatory payload schema (`{"content": "query"}`).
+* **Session Token Expiry:** Authentication tokens require dynamic refresh per test session to avoid 401 Unauthorized responses during API pipeline runs.
+* **Data Isolation Strictness:** Verified that accessing invalid or cross-tenant project IDs properly triggers 404 Conversation Not Found, confirming robust data isolation.
+
+---
+
+## 🛡️ Risk-Based QA Summary
+
+* **High Severity Area:** Token propagation and authorization headers in document upload endpoints.
+* **Medium Severity Area:** Ensuring prompt injection attempts cannot override workspace constraints or leak backend system prompts.
+* **Overall Quality Gate Status:** **PASSED** — All core E2E UI workflows, critical API routes, and AI isolation checks are validated.
+
+---
+
+## 📷 Test Execution Proofs
+
+<img width="770" alt="Test Execution Proof" src="https://github.com/user-attachments/assets/f296f1a2-ab3e-4a01-a7cf-9d96d2908712" />
 <img width="770" height="429" alt="image" src="https://github.com/user-attachments/assets/f296f1a2-ab3e-4a01-a7cf-9d96d2908712" />
 <img width="773" height="325" alt="image" src="https://github.com/user-attachments/assets/2170266e-275e-41ba-a465-16aecda8c715" />
 
