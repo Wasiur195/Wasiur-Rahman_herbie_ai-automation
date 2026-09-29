@@ -70,3 +70,44 @@ To run Playwright tests in UI mode for debugging:
 
 Bash
 npx playwright test --ui
+Badges 
+![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-green?style=for-the-badge&logo=playwright)
+![Postman](https://img.shields.io/badge/Postman-API%20Testing-orange?style=for-the-badge&logo=postman)
+![NodeJS](https://img.shields.io/badge/Node.js-v18%2B-green?style=for-the-badge&logo=nodedotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-Supported-blue?style=for-the-badge&logo=typescript)
+Environment Variables
+### 🔑 Environment Configuration
+
+Create a `.env` file in the root directory and configure the following variables:
+
+```env
+BASE_URL=[https://herbie-staging.up.railway.app](https://herbie-staging.up.railway.app)
+AUTH_TOKEN=your_jwt_token_here
+TEST_USER_EMAIL=qa_tester@example.com
+TEST_USER_PASSWORD=your_password_here
+```
+### 📜 Handy NPM Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `npm run test` | Runs all Playwright E2E tests in headless mode |
+| `npm run test:ui` | Opens Playwright Test Runner in interactive UI mode |
+| `npm run test:api` | Executes Postman collection via Newman CLI |
+| `npm run report` | Generates and opens HTML execution report |
+## 📊 Test Reporting & Artifacts
+
+After executing the Playwright tests, view the interactive HTML report by running:
+
+```bash
+npx playwright show-report
+```
+Test Case & Defect MatrixDetailed exploratory logs and bug reports are stored in data/Exploratory Notes.xlsx.🧠 AI Answer Quality & Security SummaryCategoryTest ScenarioExpected BehaviorResultSupported AnswerQuerying known facts from uploaded DOCX filesProvides grounded answers with citationsPASSAbsent InformationRequesting data not present in uploaded filesRefuses to answer / states info is missingPASSWorkspace IsolationCross-project query attempt (/conversations/{id}/messages)Returns 404 Not Found / Restricts data accessPASS
+<img width="770" height="429" alt="image" src="https://github.com/user-attachments/assets/f296f1a2-ab3e-4a01-a7cf-9d96d2908712" />
+<img width="773" height="325" alt="image" src="https://github.com/user-attachments/assets/2170266e-275e-41ba-a465-16aecda8c715" />
+
+
+## 📷 Test Execution Proofs
+
+| UI Project Creation | API Authentication 200 OK | Document Upload Proof |
+| :---: | :---: | :---: |
+| ![Project Creation](docs/create%20project.png) | ![Postman Login](docs/Postman%20Login%20200ok.png) | ![Upload Document](docs/Upload%20Document.png) |
