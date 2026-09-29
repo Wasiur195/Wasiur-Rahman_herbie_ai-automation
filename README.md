@@ -41,12 +41,32 @@ Wasiur-Rahman_herbie_ai-automation/
 ├── playwright.config.ts                           # Playwright test execution configuration
 ├── package.json                                   # Dependencies and scripts
 └── README.md                                      # Project documentation
+```
+## ⚙️ Setup & Installation Instructions
 
-⚙️ Setup & Installation InstructionsPrerequisitesNode.js: v18+ or laternpm: v9+ or laterPostman Desktop Agent / CLI (for running API collections)Local Environment SetupClone the repository:Bashgit clone [https://github.com/Wasiur195/Wasiur-Rahman_herbie_ai-automation.git](https://github.com/Wasiur195/Wasiur-Rahman_herbie_ai-automation.git)
+### Prerequisites
+* **Node.js:** v18+ or later
+* **npm:** v9+ or later
+* **Postman Desktop**
+
+```bash
 cd Wasiur-Rahman_herbie_ai-automation
-Install dependencies:Bashnpm install
-Install Playwright Browsers:Bashnpx playwright install
-🚀 Test Execution Commands1. Run Playwright E2E UI TestsTo execute the end-to-end workflow automation in headless mode:Bashnpx playwright test
-To run Playwright tests in UI mode for debugging:Bashnpx playwright test --ui
-2. Run Postman API CollectionImport tests/api/Herbie AI Workspace - API Test Suite.postman_collection.json into Postman.Import tests/api/New Environment.postman_environment.json into Postman Environments.Set your target environment variables (baseUrl, authToken).Run the collection via Postman Collection Runner or Newman CLI:Bashnpx newman run "tests/api/Herbie AI Workspace - API Test Suite.postman_collection.json" -e "tests/api/New Environment.postman_environment.json"
-🧪 Test Accounts & FixturesTest Accounts: Pre-configured test user accounts registered in the staging environment. (Passwords and actual JWT bearer tokens are omitted for security compliance).Document Fixtures Used:Project A - Battery Addendum.docxProject A - Solar Pilot.docx📊 Test Case & Defect MatrixDetailed exploratory logs and bug reports are stored in data/Exploratory Notes.xlsx.🧠 AI Answer Quality & Security SummaryCategoryTest ScenarioExpected BehaviorResultSupported AnswerQuerying known facts from uploaded DOCX filesProvides grounded answers with citationsPASSAbsent InformationRequesting data not present in uploaded filesRefuses to answer / states info is missingPASSWorkspace IsolationCross-project query attempt (/conversations/{id}/messages)Returns 404 Not Found / Restricts data accessPASS
+npm install
+npx playwright install
+```
+Test Execution Commands
+1. Run Playwright E2E UI Tests
+To execute the end-to-end workflow automation...
+
+To run Playwright tests in UI mode for debugging:
+
+Bash
+npx playwright test --ui
+Test Execution Commands
+1. Run Playwright E2E UI Tests
+To execute the end-to-end workflow automation...
+
+To run Playwright tests in UI mode for debugging:
+
+Bash
+npx playwright test --ui
